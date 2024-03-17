@@ -1,9 +1,10 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import NetInfo from '@react-native-community/netinfo'
+import * as SplashScreen from 'expo-splash-screen'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { onlineManager } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
-import { SplashScreen, Stack } from 'expo-router'
+import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
@@ -11,6 +12,9 @@ import Toast from 'react-native-toast-message'
 import { QueryProvider } from '@/api'
 
 export { ErrorBoundary } from 'expo-router'
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync()
 
 export const unstable_settings = {
   initialRouteName: '(tabs)',
@@ -28,19 +32,26 @@ export default function RootLayout() {
     ...FontAwesome.font,
   })
 
-  console.log('loaded', loaded, 'error', error)
+  useEffect(() => {
+    async function hideSplashScreen() {
+      if (loaded) {
+        try {
+          await SplashScreen.hideAsync()
+        } catch (e) {
+          console.warn(e)
+        }
+      }
+    }
+
+    hideSplashScreen()
+  }, [loaded])
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error
   }, [error])
 
-  return (
-    <>
-      {/*{!loaded && <SplashScreen />}*/}
-      {loaded && <RootLayoutNav />}
-    </>
-  )
+  return <>{loaded && <RootLayoutNav />}</>
 }
 
 function RootLayoutNav() {
@@ -48,8 +59,8 @@ function RootLayoutNav() {
     <QueryProvider>
       <ThemeProvider value={DefaultTheme}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ title: 'Authentication' }} />
+          {/*<Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
+          <Stack.Screen name="modal" options={{ title: 'Lexopers' }} />
         </Stack>
         <Toast />
         <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />

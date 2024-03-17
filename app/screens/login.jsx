@@ -3,8 +3,8 @@ import { Constants } from '@/common/Constants'
 import Button from '@/components/Button/Button'
 import Input from '@/components/Input/Input'
 import { Feather, Octicons } from '@expo/vector-icons'
-// import { useMutation } from '@tanstack/react-query'
-// import { Formik, FormikHelpers } from 'formik'
+import { useMutation } from '@tanstack/react-query'
+import { Formik, FormikHelpers } from 'formik'
 import React, { useState } from 'react'
 import {
   Image,
@@ -19,7 +19,7 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-toast-message'
 
-export const LoginScreen = ({ pageToShow, setPageToShow }) => {
+export const LoginScreen = () => {
   // const { mutateAsync } = useMutation();
   const [showPassword, setShowPassword] = useState(false)
 
@@ -38,9 +38,7 @@ export const LoginScreen = ({ pageToShow, setPageToShow }) => {
       Toast.show({
         type: 'error',
         text2: error?.response?.data?.message || 'Something went wrong 👋',
-        text2Style: {
-          fontSize: 18,
-        },
+        text2Style: { fontSize: 18 },
       })
     }
   }

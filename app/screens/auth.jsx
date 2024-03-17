@@ -1,19 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { LoginScreen } from './login'
-import { RegisterScreen } from './register'
 
 const Auth = () => {
-  const [pageToShow, setPageToShow] = useState('login')
-
-  return (
-    <>
-      {pageToShow === 'register' ? (
-        <RegisterScreen pageToShow={pageToShow} setPageToShow={setPageToShow} />
-      ) : (
-        <LoginScreen pageToShow={pageToShow} setPageToShow={setPageToShow} />
-      )}
-    </>
-  )
+  return <LoginScreen />
 }
 
 export default Auth
