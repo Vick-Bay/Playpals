@@ -16,6 +16,7 @@ import { Link, useRouter } from 'expo-router'
 import Onboard from './item'
 
 const OnBoardingScreen = ({ setIsLoggedIn }) => {
+  console.log('OnBoardingScreen')
   const { width: screenWidth } = useWindowDimensions()
   const flatListRef = useRef(null)
 

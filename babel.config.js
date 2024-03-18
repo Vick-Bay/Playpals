@@ -2,18 +2,6 @@ module.exports = function (api) {
   api.cache(true)
   return {
     presets: ['babel-preset-expo'],
-    plugins: [
-      'nativewind/babel',
-      [
-        'module-resolver',
-        {
-          root: ['.'],
-          extensions: ['.ios.js', '.android.js', '.js', '.jsx', '.json'],
-          alias: {
-            '@': './src',
-          },
-        },
-      ],
-    ],
+    plugins: ['nativewind/babel'],
   }
 }

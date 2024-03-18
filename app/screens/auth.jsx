@@ -1,8 +1,8 @@
 import React from 'react'
-import { LoginScreen } from './login'
+import UsersForAuth from './usersForAuth'
 
 const Auth = () => {
-  return <LoginScreen />
+  return <UsersForAuth />
 }
 
 export default Auth

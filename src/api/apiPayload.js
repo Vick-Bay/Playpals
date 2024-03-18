@@ -13,6 +13,8 @@ export const apiPayload = async (
 ) => {
   const token = await getAccessToken()
 
+  console.log('token', token)
+
   const jsonPayload = {
     url,
     method,

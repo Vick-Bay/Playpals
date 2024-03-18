@@ -3,7 +3,7 @@ import { baseURL } from './constants'
 import { getAccessToken } from '@/api/asyncStore'
 
 export const client = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL || baseURL,
+  baseURL: baseURL,
 })
 
 client.interceptors.request.use(
@@ -17,7 +17,9 @@ client.interceptors.request.use(
     return config
   },
 
-  (error) => {
+  async (error) => {
+    console.log('error', error)
+
     return Promise.reject(error)
   },
 )
@@ -25,5 +27,4 @@ client.interceptors.request.use(
 const request = (options) => {
   return client(options)
 }
-
 export default request
