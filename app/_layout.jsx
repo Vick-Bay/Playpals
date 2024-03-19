@@ -4,21 +4,19 @@ import * as SplashScreen from 'expo-splash-screen'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { onlineManager } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
+import { Link, Stack, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect } from 'react'
-import { Platform } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { QueryProvider } from '@/api'
+import { Colors } from '@/common/Colors'
+import { Ionicons } from '@expo/vector-icons'
 
 export { ErrorBoundary } from 'expo-router'
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync()
-
-export const unstable_settings = {
-  initialRouteName: '(tabs)',
-}
 
 onlineManager.setEventListener((setOnline) => {
   return NetInfo.addEventListener((state) => {
@@ -26,45 +24,125 @@ onlineManager.setEventListener((setOnline) => {
   })
 })
 
-export default function RootLayout() {
+// export default function RootLayout() {
+//   const [loaded, error] = useFonts({
+//     SpaceMono: require('../src/assets/fonts/SpaceMono-Regular.ttf'),
+//     ...FontAwesome.font,
+//   })
+//
+//   useEffect(() => {
+//     async function hideSplashScreen() {
+//       if (loaded) {
+//         try {
+//           await SplashScreen.hideAsync()
+//         } catch (e) {
+//           console.warn(e)
+//         }
+//       }
+//     }
+//
+//     hideSplashScreen()
+//   }, [loaded])
+//
+//   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+//   useEffect(() => {
+//     if (error) throw error
+//   }, [error])
+//
+//   return <>{loaded && <RootLayoutNav />}</>
+// }
+
+const InitialLayout = () => {
+  const isSignedIn = false
+  // const segments = useSegments();
+  const router = useRouter()
   const [loaded, error] = useFonts({
     SpaceMono: require('../src/assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   })
-
-  useEffect(() => {
-    async function hideSplashScreen() {
-      if (loaded) {
-        try {
-          await SplashScreen.hideAsync()
-        } catch (e) {
-          console.warn(e)
-        }
-      }
-    }
-
-    hideSplashScreen()
-  }, [loaded])
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error
   }, [error])
 
-  return <>{loaded && <RootLayoutNav />}</>
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [loaded])
+
+  useEffect(() => {
+    // if (!isLoaded) return;
+    // const inTabsGroup = segments[0] === '(auth)';
+    // if (isSignedIn && !inTabsGroup) {
+    //   router.replace('/(tabs)/chats');
+    // } else if (!isSignedIn) {
+    //   router.replace('/');
+    // }
+  }, [isSignedIn])
+
+  if (!loaded) {
+    return <View />
+  }
+
+  return (
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      {/*  <Stack.Screen*/}
+      {/*    name="otp"*/}
+      {/*    options={{*/}
+      {/*      headerTitle: 'Enter Your Phone Number',*/}
+      {/*      headerBackVisible: false,*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*  <Stack.Screen*/}
+      {/*    name="verify/[phone]"*/}
+      {/*    options={{*/}
+      {/*      title: 'Verify Your Phone Number',*/}
+      {/*      headerShown: true,*/}
+      {/*      headerBackTitle: 'Edit number',*/}
+      {/*    }}*/}
+      {/*  />*/}
+      {/*  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
+      <Stack.Screen
+        name="(modals)/code-input"
+        options={{
+          presentation: 'modal',
+          title: 'Enter Code',
+          headerTransparent: false,
+          headerBlurEffect: 'regular',
+          headerStyle: {
+            backgroundColor: Colors.main,
+          },
+          headerRight: () => (
+            <Link href={'/'} asChild>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Colors.main,
+                  borderRadius: 20,
+                  padding: 4,
+                }}
+              >
+                <Ionicons name="close" color={Colors.orange} size={20} />
+              </TouchableOpacity>
+            </Link>
+          ),
+        }}
+      />
+    </Stack>
+  )
 }
 
-function RootLayoutNav() {
+const RootLayoutNav = () => {
   return (
     <QueryProvider>
       <ThemeProvider value={DefaultTheme}>
-        <Stack>
-          {/*<Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
-          <Stack.Screen name="modal" options={{ title: 'Lexopers' }} />
-        </Stack>
+        <InitialLayout />
         <Toast />
-        <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
       </ThemeProvider>
     </QueryProvider>
   )
 }
+
+export default RootLayoutNav
