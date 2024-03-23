@@ -4,13 +4,7 @@ import AvatarButton from '@/components/AvatarButton'
 
 const UsersList = ({ users }) => {
   const renderItem = ({ item }) => (
-    <AvatarButton
-      avatarUri={item.image_url}
-      name={item.name}
-      onPress={() => {
-        console.log('item', item)
-      }}
-    />
+    <AvatarButton avatarUri={item.image_url} name={item.name} />
   )
 
   return (

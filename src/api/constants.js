@@ -1,1 +1,1 @@
-export const baseURL = 'www.localhost:7777'
+export const baseURL = 'https://staging.lexopers.com'

@@ -1,28 +1,13 @@
-import { getAccessToken } from '@/api/asyncStore'
-
 const getObjectKeys = (obj, index) => {
   const keys = Object.keys(obj)
   return keys[index]
 }
 
-export const apiPayload = async (
-  url,
-  method,
-  payload = null,
-  contentType = null,
-) => {
-  const token = await getAccessToken()
-
-  console.log('token', token)
-
+export const apiPayload = (url, method, payload = null, contentType = null) => {
   const jsonPayload = {
     url,
     method,
     headers: {},
-  }
-
-  if (token) {
-    jsonPayload.headers.Authorization = token
   }
 
   if (!contentType) {
@@ -47,8 +32,6 @@ export const apiPayload = async (
         jsonPayload.data = payload
         break
     }
-  } else {
-    jsonPayload.data = null
   }
   return jsonPayload
 }

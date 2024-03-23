@@ -1,8 +1,10 @@
 import React from 'react'
+import { ActivityIndicator, Text } from 'react-native'
 import { useQuery } from '@tanstack/react-query'
 import { getAllUsers } from '@/api/users'
 import Toast from 'react-native-toast-message'
 import UsersList from '@/components/UsersList/UsersList'
+import { Colors } from '@/common/Colors'
 
 const UsersForAuth = () => {
   const {
@@ -25,7 +27,15 @@ const UsersForAuth = () => {
     })
   }
 
-  return <UsersList users={users} />
+  return (
+    <>
+      {isLoading ? (
+        <ActivityIndicator size="medium" color={Colors.main} />
+      ) : (
+        <UsersList users={users} />
+      )}
+    </>
+  )
 }
 
 export default UsersForAuth

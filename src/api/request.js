@@ -7,19 +7,15 @@ export const client = axios.create({
 })
 
 client.interceptors.request.use(
-  (config) => {
-    const token = getAccessToken()
-
+  async (config) => {
+    const token = await getAccessToken()
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers.Authorization = token
     }
-
     return config
   },
 
   async (error) => {
-    console.log('error', error)
-
     return Promise.reject(error)
   },
 )
