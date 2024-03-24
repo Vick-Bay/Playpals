@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { useMutation, useIsMutating } from '@tanstack/react-query'
 import {
   CodeField,
@@ -10,12 +11,14 @@ import {
 } from 'react-native-confirmation-code-field'
 import { login } from '@/api'
 import Toast from 'react-native-toast-message'
+import { loginFailure, loginSuccess } from '@/store/authSlice'
 
 const CELL_COUNT = 4
 
 const Page = () => {
   const [code, setCode] = useState('')
   const { userEmail } = useLocalSearchParams()
+  const dispatch = useDispatch()
 
   const isMutating = useIsMutating()
   const isLoading = useMemo(() => isMutating > 0, [isMutating])
@@ -29,6 +32,7 @@ const Page = () => {
   const loginMutation = useMutation({
     mutationFn: ({ email, password }) => login({ user: { email, password } }),
     onSuccess: () => {
+      dispatch(loginSuccess())
       Toast.show({
         type: 'success',
         text2: 'Login successful',
@@ -36,7 +40,7 @@ const Page = () => {
       })
     },
     onError: (err) => {
-      console.log('login error', err)
+      dispatch(loginFailure())
       Toast.show({
         type: 'error',
         text2: err?.response?.data?.message || 'Something went wrong 👋',
@@ -46,15 +50,11 @@ const Page = () => {
   })
 
   const onSubmit = async ({ email, password }) => {
-    console.log('onSubmit', { email, password })
     await loginMutation.mutate({ email, password })
   }
 
   const handleLogin = async () => {
-    console.log('handleLogin', { email: userEmail, password: code })
-    onSubmit({ email: userEmail, password: code }).then(() => {
-      console.log('login successful')
-    })
+    await onSubmit({ email: userEmail, password: code })
   }
 
   return (
@@ -93,7 +93,7 @@ const Page = () => {
       <TouchableOpacity
         className="bg-main px-4 pt-1 rounded-full h-[40px] w-1/3"
         onPress={handleLogin}
-        // disabled={isLoading}
+        disabled={isLoading}
       >
         <Text className="text-white text-center text-lg">Log In</Text>
       </TouchableOpacity>

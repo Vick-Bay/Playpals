@@ -1,16 +1,20 @@
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import * as SplashScreen from 'expo-splash-screen'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import NetInfo from '@react-native-community/netinfo'
-import * as SplashScreen from 'expo-splash-screen'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { onlineManager } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
 import { Link, Stack, useRouter } from 'expo-router'
-import React, { useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { QueryProvider } from '@/api'
 import { Colors } from '@/common/Colors'
 import { Ionicons } from '@expo/vector-icons'
+import store, { persistor } from '@/store/store'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -24,9 +28,13 @@ onlineManager.setEventListener((setOnline) => {
 })
 
 const InitialLayout = () => {
-  const isSignedIn = false
   // const segments = useSegments();
   const router = useRouter()
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+
+  console.log('isLoggedIn', isLoggedIn)
+
   const [loaded, error] = useFonts({
     SpaceMono: require('../src/assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -40,18 +48,13 @@ const InitialLayout = () => {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync()
+      if (isLoggedIn) {
+        router.replace('screens/home')
+      } else if (!isLoggedIn) {
+        router.replace('/')
+      }
     }
-  }, [loaded])
-
-  useEffect(() => {
-    // if (!isLoaded) return;
-    // const inTabsGroup = segments[0] === '(auth)';
-    // if (isSignedIn && !inTabsGroup) {
-    //   router.replace('/(tabs)/chats');
-    // } else if (!isSignedIn) {
-    //   router.replace('/');
-    // }
-  }, [isSignedIn])
+  }, [loaded, isLoggedIn])
 
   if (!loaded) {
     return <View />
@@ -60,22 +63,6 @@ const InitialLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      {/*  <Stack.Screen*/}
-      {/*    name="otp"*/}
-      {/*    options={{*/}
-      {/*      headerTitle: 'Enter Your Phone Number',*/}
-      {/*      headerBackVisible: false,*/}
-      {/*    }}*/}
-      {/*  />*/}
-      {/*  <Stack.Screen*/}
-      {/*    name="verify/[phone]"*/}
-      {/*    options={{*/}
-      {/*      title: 'Verify Your Phone Number',*/}
-      {/*      headerShown: true,*/}
-      {/*      headerBackTitle: 'Edit number',*/}
-      {/*    }}*/}
-      {/*  />*/}
-      {/*  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
       <Stack.Screen
         name="(modals)/code-input/[userId]"
         options={{
@@ -101,18 +88,23 @@ const InitialLayout = () => {
           ),
         }}
       />
+      <Stack.Screen name="screens/home" options={{ headerShown: false }} />
     </Stack>
   )
 }
 
 const RootLayoutNav = () => {
   return (
-    <QueryProvider>
-      <ThemeProvider value={DefaultTheme}>
-        <InitialLayout />
-        <Toast />
-      </ThemeProvider>
-    </QueryProvider>
+    <ReduxProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <QueryProvider>
+          <ThemeProvider value={DefaultTheme}>
+            <InitialLayout />
+            <Toast />
+          </ThemeProvider>
+        </QueryProvider>
+      </PersistGate>
+    </ReduxProvider>
   )
 }
 

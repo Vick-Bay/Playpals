@@ -1,13 +1,21 @@
+import store from '@/store/store'
+
 const getObjectKeys = (obj, index) => {
   const keys = Object.keys(obj)
   return keys[index]
 }
 
 export const apiPayload = (url, method, payload = null, contentType = null) => {
+  const token = store.getState().auth.token
+
   const jsonPayload = {
     url,
     method,
     headers: {},
+  }
+
+  if (token) {
+    jsonPayload.headers.Authorization = token
   }
 
   if (!contentType) {
