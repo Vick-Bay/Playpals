@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "playpals",
-    "slug": "playpals",
+    "name": "Lexopers",
+    "slug": "lexopers",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -17,14 +17,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vickramb.playpals"
+      "bundleIdentifier": "com.vickramb.lexopers"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.vickramb.playpals"
+      "package": "com.vickramb.lexopers"
     },
     "web": {
       "bundler": "metro",

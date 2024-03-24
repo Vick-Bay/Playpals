@@ -5,9 +5,8 @@ import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { onlineManager } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
 import { Link, Stack, useRouter } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
 import React, { useEffect } from 'react'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { QueryProvider } from '@/api'
 import { Colors } from '@/common/Colors'
@@ -23,34 +22,6 @@ onlineManager.setEventListener((setOnline) => {
     setOnline(!!state.isConnected)
   })
 })
-
-// export default function RootLayout() {
-//   const [loaded, error] = useFonts({
-//     SpaceMono: require('../src/assets/fonts/SpaceMono-Regular.ttf'),
-//     ...FontAwesome.font,
-//   })
-//
-//   useEffect(() => {
-//     async function hideSplashScreen() {
-//       if (loaded) {
-//         try {
-//           await SplashScreen.hideAsync()
-//         } catch (e) {
-//           console.warn(e)
-//         }
-//       }
-//     }
-//
-//     hideSplashScreen()
-//   }, [loaded])
-//
-//   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-//   useEffect(() => {
-//     if (error) throw error
-//   }, [error])
-//
-//   return <>{loaded && <RootLayoutNav />}</>
-// }
 
 const InitialLayout = () => {
   const isSignedIn = false
@@ -106,7 +77,7 @@ const InitialLayout = () => {
       {/*  />*/}
       {/*  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />*/}
       <Stack.Screen
-        name="(modals)/code-input"
+        name="(modals)/code-input/[userId]"
         options={{
           presentation: 'modal',
           title: 'Enter Code',
@@ -124,7 +95,7 @@ const InitialLayout = () => {
                   padding: 4,
                 }}
               >
-                <Ionicons name="close" color={Colors.orange} size={20} />
+                <Ionicons name="close" color={Colors.softred} size={15} />
               </TouchableOpacity>
             </Link>
           ),

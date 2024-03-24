@@ -1,5 +1,5 @@
 import React from 'react'
-import UsersForAuth from './usersForAuth'
+import UsersForAuth from '@/components/usersForAuth'
 
 const Auth = () => {
   return <UsersForAuth />

@@ -1,10 +1,10 @@
 import React from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import AvatarButton from '@/components/AvatarButton'
 
 const UsersList = ({ users }) => {
   const renderItem = ({ item }) => (
-    <AvatarButton avatarUri={item.image_url} name={item.name} />
+    <AvatarButton avatarUri={item.image_url} user={item} />
   )
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import UsersForAuth from './screens/usersForAuth'
+import UsersForAuth from '@/components/usersForAuth'
 import { View } from 'react-native'
 
 const WelcomeScreen = () => {

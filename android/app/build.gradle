@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.vickramb.playpals'
+    namespace 'com.vickramb.lexopers'
     defaultConfig {
-        applicationId 'com.vickramb.playpals'
+        applicationId 'com.vickramb.lexopers'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
