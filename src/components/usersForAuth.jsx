@@ -30,7 +30,7 @@ const UsersForAuth = () => {
   return (
     <>
       {isLoading ? (
-        <ActivityIndicator size="medium" color={Colors.main} />
+        <ActivityIndicator size="auto" color={Colors.main} />
       ) : (
         <UsersList users={users} />
       )}

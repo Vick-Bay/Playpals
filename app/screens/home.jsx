@@ -2,12 +2,12 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { logout } from '@/store/authSlice'
-import { logout as ApiLogout } from '@/api/auth'
+import { logout as apiLogout } from '@/api/auth'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
   const handleLogout = async () => {
-    await ApiLogout()
+    await apiLogout()
     dispatch(logout())
   }
   return (

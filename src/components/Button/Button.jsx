@@ -1,14 +1,15 @@
-import { styled } from 'nativewind'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
+import RegularText from '../Texts/RegularText'
 
-const StyledButton = styled(TouchableOpacity)
-
-function Button(props) {
+const Button = ({ btnStyles, onPress, textStyles, children }) => {
   return (
-    <StyledButton activeOpacity={0.5} {...props}>
-      {props.children}
-    </StyledButton>
+    <TouchableOpacity
+      onPress={onPress}
+      className={`w-full items-center rounded-[20px] bg-primary p-5 ${btnStyles}`}
+    >
+      <RegularText textStyles={textStyles}>{children}</RegularText>
+    </TouchableOpacity>
   )
 }
 

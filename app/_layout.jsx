@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Provider as ReduxProvider } from 'react-redux'
+import { GluestackUIProvider, Text, Box } from '@gluestack-ui/themed'
+import { config } from '@gluestack-ui/config'
 import { PersistGate } from 'redux-persist/integration/react'
 import * as SplashScreen from 'expo-splash-screen'
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import NetInfo from '@react-native-community/netinfo'
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
+// import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { onlineManager } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
 import { Link, Stack, useRouter } from 'expo-router'
@@ -36,7 +38,8 @@ const InitialLayout = () => {
   console.log('isLoggedIn', isLoggedIn)
 
   const [loaded, error] = useFonts({
-    SpaceMono: require('../src/assets/fonts/SpaceMono-Regular.ttf'),
+    'Lato-Regular': require('../src/assets/fonts/Lato-Regular.ttf'),
+    'Lato-Bold': require('../src/assets/fonts/Lato-Bold.ttf'),
     ...FontAwesome.font,
   })
 
@@ -63,6 +66,7 @@ const InitialLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="screens/auth" options={{ headerShown: false }} />
       <Stack.Screen
         name="(modals)/code-input/[userId]"
         options={{
@@ -98,10 +102,12 @@ const RootLayoutNav = () => {
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryProvider>
-          <ThemeProvider value={DefaultTheme}>
+          <GluestackUIProvider config={config}>
+            {/*<ThemeProvider value={DefaultTheme}>*/}
             <InitialLayout />
             <Toast />
-          </ThemeProvider>
+            {/*</ThemeProvider>*/}
+          </GluestackUIProvider>
         </QueryProvider>
       </PersistGate>
     </ReduxProvider>
