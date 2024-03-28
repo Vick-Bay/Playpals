@@ -8,7 +8,7 @@ const UsersList = ({ users }) => {
   )
 
   return (
-    <View className="flex-1 justify-center items-center w-full bg-main">
+    <View className="pt-24 flex-1 justify-center items-center w-full bg-primary">
       <FlatList
         data={users}
         renderItem={renderItem}

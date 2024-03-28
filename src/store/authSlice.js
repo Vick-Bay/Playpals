@@ -5,6 +5,7 @@ const initialState = {
   isLoggedIn: false,
   user: null,
   token: null,
+  hasLoggedInBefore: false,
 }
 
 // Actual Slice
@@ -14,6 +15,7 @@ export const authSlice = createSlice({
   reducers: {
     loginSuccess(state) {
       state.isLoggedIn = true
+      state.hasLoggedInBefore = true
     },
     loginFailure(state) {
       state.isLoggedIn = false
@@ -22,6 +24,7 @@ export const authSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false
       state.user = null
+      state.token = null
     },
     setUser(state, action) {
       state.user = action.payload

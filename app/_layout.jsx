@@ -35,8 +35,6 @@ const InitialLayout = () => {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
-  console.log('isLoggedIn', isLoggedIn)
-
   const [loaded, error] = useFonts({
     'Lato-Regular': require('../src/assets/fonts/Lato-Regular.ttf'),
     'Lato-Bold': require('../src/assets/fonts/Lato-Bold.ttf'),
@@ -52,7 +50,7 @@ const InitialLayout = () => {
     if (loaded) {
       SplashScreen.hideAsync()
       if (isLoggedIn) {
-        router.replace('screens/home')
+        router.replace('(tabs)/home')
       } else if (!isLoggedIn) {
         router.replace('/')
       }
@@ -67,6 +65,7 @@ const InitialLayout = () => {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="screens/auth" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="(modals)/code-input/[userId]"
         options={{
@@ -75,13 +74,13 @@ const InitialLayout = () => {
           headerTransparent: false,
           headerBlurEffect: 'regular',
           headerStyle: {
-            backgroundColor: Colors.main,
+            backgroundColor: Colors.primary,
           },
           headerRight: () => (
             <Link href={'/'} asChild>
               <TouchableOpacity
                 style={{
-                  backgroundColor: Colors.main,
+                  backgroundColor: Colors.primary,
                   borderRadius: 20,
                   padding: 4,
                 }}
@@ -92,7 +91,6 @@ const InitialLayout = () => {
           ),
         }}
       />
-      <Stack.Screen name="screens/home" options={{ headerShown: false }} />
     </Stack>
   )
 }

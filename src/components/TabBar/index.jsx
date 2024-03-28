@@ -1,46 +1,22 @@
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
-import React, { useEffect } from 'react'
-import {
-  Image,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
-} from 'react-native'
+import React from 'react'
 
-const Tabbar = ({ state, descriptors, navigation }) => {
-  const { width } = useWindowDimensions()
-  const tabWidth = width / state.routes.length
+import { View, Pressable, Dimensions, StyleSheet } from 'react-native'
 
-  useEffect(() => {}, [state.index])
+import NavigationIcon from './NavigationIcon'
 
-  let route = state.routes[state.index]
-  let routeName = route?.name || 'Home'
+const { width } = Dimensions.get('window')
 
-  const stackName = getFocusedRouteNameFromRoute(route)
-
-  if (
-    (routeName === 'Root:Messages' && stackName === 'Chat') ||
-    (routeName === 'Root:Groups' && stackName === 'GroupChat') ||
-    (routeName === 'Root:Stories' && stackName === 'Story') ||
-    (routeName === 'Root:Calls' && stackName === 'Calling')
-  ) {
-    return null
-  }
+const TabBar = ({ state, navigation }) => {
+  // order state routes so that home is first
+  state.routes.sort((a, b) => {
+    if (a.name === 'home') return -1
+    if (b.name === 'home') return 1
+    return 0
+  })
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        backgroundColor: 'main',
-        height: 60,
-        position: 'relative',
-      }}
-    >
+    <View style={styles.mainContainer}>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key]
-        const Icon = options.tabBarIcon
         const isFocused = state.index === index
 
         const onPress = () => {
@@ -54,70 +30,48 @@ const Tabbar = ({ state, descriptors, navigation }) => {
           }
         }
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          })
-        }
-
         return (
-          <View
-            key={index}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 10,
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: isFocused ? 30 : 0,
-                backgroundColor: 'main',
-                width: isFocused ? 60 : tabWidth,
-                height: isFocused ? 60 : 60,
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
+          <View key={index} style={styles.mainItemContainer}>
+            <Pressable
               onPress={onPress}
-              onLongPress={onLongPress}
-              activeOpacity={0.8}
+              style={{
+                backgroundColor: isFocused ? '#81cdc6' : '#b3e0dc',
+                borderRadius: 20,
+              }}
             >
-              <Icon focused={isFocused} />
-            </TouchableOpacity>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                  padding: 15,
+                }}
+              >
+                <NavigationIcon route={route.name} active={isFocused} />
+              </View>
+            </Pressable>
           </View>
         )
       })}
-
-      <View
-        style={{
-          height: 60,
-          position: 'absolute',
-          left: 0,
-          bottom: 0,
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: tabWidth,
-        }}
-      >
-        <Image
-          source={require('../assets/images/button.png')}
-          style={{
-            width: 120,
-            height: 60,
-            position: 'absolute',
-            bottom: 8,
-            left: -(130 - tabWidth) / 2,
-          }}
-          resizeMode="contain"
-        />
-      </View>
     </View>
   )
 }
 
-export default Tabbar
+export default TabBar
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 25,
+    backgroundColor: '#b3e0dc',
+    borderRadius: 25,
+    marginHorizontal: width * 0.1,
+  },
+  mainItemContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+})

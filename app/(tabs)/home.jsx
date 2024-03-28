@@ -16,7 +16,7 @@ const HomeScreen = () => {
         Welcome to the Home Screen
       </Text>
       <TouchableOpacity
-        className="bg-main px-4 pt-1 rounded-full h-[40px] w-1/3"
+        className="bg-primary px-4 pt-1 rounded-full h-[40px] w-1/3"
         onPress={handleLogout}
       >
         <Text className="text-white text-center text-lg">Log Out</Text>
