@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { logout } from '@/store/authSlice'
 import { logout as apiLogout } from '@/api/auth'
 
-const HomeScreen = () => {
+const LeaderBoardScreen = () => {
   const dispatch = useDispatch()
   const handleLogout = async () => {
     await apiLogout()
@@ -25,4 +25,4 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+export default LeaderBoardScreen

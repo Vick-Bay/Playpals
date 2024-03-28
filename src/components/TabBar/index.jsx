@@ -9,8 +9,8 @@ const { width } = Dimensions.get('window')
 const TabBar = ({ state, navigation }) => {
   // order state routes so that home is first
   state.routes.sort((a, b) => {
-    if (a.name === 'home') return -1
-    if (b.name === 'home') return 1
+    if (a.name === 'leaderboard') return -1
+    if (b.name === 'leaderboard') return 1
     return 0
   })
 
@@ -35,7 +35,7 @@ const TabBar = ({ state, navigation }) => {
             <Pressable
               onPress={onPress}
               style={{
-                backgroundColor: isFocused ? '#81cdc6' : '#b3e0dc',
+                backgroundColor: isFocused ? '#b3e0dc' : '#81cdc6',
                 borderRadius: 20,
               }}
             >
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 25,
-    backgroundColor: '#b3e0dc',
+    backgroundColor: '#81cdc6',
     borderRadius: 25,
-    marginHorizontal: width * 0.1,
+    marginHorizontal: width * 0.05,
   },
   mainItemContainer: {
     flex: 1,

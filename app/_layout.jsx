@@ -50,7 +50,7 @@ const InitialLayout = () => {
     if (loaded) {
       SplashScreen.hideAsync()
       if (isLoggedIn) {
-        router.replace('(tabs)/home')
+        router.replace('(tabs)/leaderboard')
       } else if (!isLoggedIn) {
         router.replace('/')
       }

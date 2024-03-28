@@ -1,19 +1,17 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { Text, View } from 'react-native'
 
 const ROUTES = {
-  home: { icon: 'home', text: 'Home' },
-  game: { icon: 'gamepad', text: 'Game' },
+  leaderboard: { icon: '🏆', text: 'Board' },
+  game: { icon: '🎮', text: 'Game' },
+  profile: { icon: '👤', text: 'Profile' },
 }
 
-const NavigationIcon = ({ route, active }) => {
+const NavigationIcon = ({ route }) => {
   return (
-    <View className="flex-1 justify-center items-center">
-      <FontAwesome
-        name={ROUTES[route].icon}
-        size={28}
-        style={{ marginBottom: -3, color: active ? '#FFF' : '#05998c' }}
-      />
+    <View className="flex-1 justify-center items-center w-[50px]">
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-2xl text-center">{ROUTES[route].icon}</Text>
+      </View>
       <Text className="text-xs text-teal-800 mt-1">{ROUTES[route].text}</Text>
     </View>
   )
